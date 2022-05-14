@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, StyleSheet} from 'react-native';
+import {Text, FlatList, StyleSheet} from 'react-native';
 import {carregaProdutores} from '../../../servicos/carregaDados';
+import Card from './Produtor';
 
-export default function Produtores() {
+export default function Produtores({topo: Topo}) {
   const [titulo, setTitulo] = useState('');
   const [lista, setLista] = useState([]);
 
@@ -13,13 +14,19 @@ export default function Produtores() {
   }, []);
 
   const TopoLista = () => {
-    return <Text style={estilos.titulo}>{titulo}</Text>;
+    return (
+      <>
+        <Topo />
+        <Text style={estilos.titulo}>{titulo}</Text>
+      </>
+    );
   };
   return (
     <FlatList
       data={lista}
-      renderItem={({item: {nome}}) => <Text>{nome}</Text>}
+      renderItem={({item}) => <Card {...item} />}
       ListHeaderComponent={TopoLista}
+      keyExtractor={({nome}) => nome}
     />
   );
 }
